@@ -6,52 +6,24 @@ protocols: HTTP
 version: v0.1
 documentation:
   - title: Work Exercise
-    content: Felipe Caldas' API design for Deloitte.
+    content: Felipe Caldas' API design.
 
 types:
   Customer: !include libraries/Customer.dataType.raml
 
 traits:
-  pagination:
-    queryParameters:
-      offset:
-        description: Skip over a number of elements by specifying an offset value for the query
-        type: integer
-        example: 20
-        default: 0
-      limit:
-        description: Limit the number of elements on the response
-        type: integer
-        example: 80
-
-resourceTypes:
-  - base:
-      get?: &common
-        responses:
-          200:
-            headers: &commonHeaders
-              x-ratelimit-limit:
-                type: integer
-              x-ratelimit-remaining:
-                type: integer
-              x-ratelimit-reset:
-                type: integer
-          400:
-            headers: *commonHeaders
-          404:
-            headers: *commonHeaders
-          429:
-            description: |
-                API rate limit exceeded.
-            headers: *commonHeaders
-      post?: *common
-      patch?: *common
-      put?: *common
-      delete?: *common
+  contentCacheable: !include libraries/content-cacheable.trait.raml
+  traceable:
+    headers:
+      X-Tracker:
+        description: A code to track API calls end to end
+        pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+        example: 12345678-1234-1234-1234-123456789012
 
 /customer:
   get:
     description: List all customers
+    is: [ contentCacheable ]
     responses:
       200:
         body:
@@ -74,16 +46,18 @@ resourceTypes:
             type: Customer
             example: !include examples/customer.json
         404:
-    put: #put is idempotent, so it is a good idea to implement this for {customer_id} to guarantee an object won't be inserted/updated twice.
+    put: #put is idempotent, so it is a good idea to implement this for {customer_id} to guarantee an object won't be inserted/updated more than once.
       description: Update one particular customer
       body:
         type: Customer
     delete:
       description: Delete one particular customer
+      is: [ traceable ]
       responses:
         204:
   post:
     description: Creates one new customer
+    is: [ traceable ]
     body:
       type: Customer
     responses:

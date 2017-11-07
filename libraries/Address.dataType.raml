@@ -1,0 +1,14 @@
+#%RAML 1.0 DataType
+
+#usage: provides a type that stores customer information
+description: A simple address
+
+type: object
+properties:
+  line1:    string
+  line2?:    string
+  city:     string
+  postcode:
+    type: string
+    pattern: '[0-9]{4}'
+  country:  string

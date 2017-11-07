@@ -1,0 +1,22 @@
+#%RAML 1.0 Library
+
+traits:
+  contentCacheable: !include content-cacheable.trait.raml
+  traceable:
+    headers:
+      X-Tracker:
+        description: A code to track API calls end to end
+        pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+        example: 12345678-1234-1234-1234-123456789012
+  paging:
+    queryParameters:
+      size:
+        description: the amount of elements of each result page
+        type: integer
+        required: false
+        example: 10
+      page:
+        description: the page number
+        type: integer
+        required: false
+        example: 0

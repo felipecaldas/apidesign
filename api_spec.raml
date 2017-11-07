@@ -11,24 +11,20 @@ documentation:
 types:
   Customer: !include libraries/Customer.dataType.raml
 
-traits:
-  contentCacheable: !include libraries/content-cacheable.trait.raml
-  traceable:
-    headers:
-      X-Tracker:
-        description: A code to track API calls end to end
-        pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
-        example: 12345678-1234-1234-1234-123456789012
+uses:
+  assets: libraries/assets.libs.raml
+
 
 /customer:
   get:
     description: List all customers
-    is: [ contentCacheable ]
+    is: [ assets.contentCacheable, assets.paging ]
     responses:
       200:
         body:
-          type: Customer[]
-          example: !include examples/customers.json
+          application/json:
+            type: Customer[]
+            example: !include examples/customers.json
       404:
         body:
           properties:
@@ -43,23 +39,26 @@ traits:
       responses:
         200:
           body:
-            type: Customer
-            example: !include examples/customer.json
+            application/json:
+              type: Customer
+              example: !include examples/customer.json
         404:
     put: #put is idempotent, so it is a good idea to implement this for {customer_id} to guarantee an object won't be inserted/updated more than once.
       description: Update one particular customer
       body:
-        type: Customer
+        application/json:
+          type: Customer
     delete:
       description: Delete one particular customer
-      is: [ traceable ]
+      is: [ assets.traceable ]
       responses:
         204:
   post:
     description: Creates one new customer
-    is: [ traceable ]
+    is: [ assets.traceable ]
     body:
-      type: Customer
+      application/json:
+        type: Customer
     responses:
       201:
         body:

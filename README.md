@@ -35,9 +35,9 @@ The use of `traits` adds new nodes at method level, for example a `paging` enabl
 
 It was also added as HTTP `headers` to the `GET /customers` and `GET /customers/{id}` the notion of `If-None-Match` and `If-Modified-Since`. Both optional. They are:
 
-* If-None-Match - the client can search the API by giving the ETag value associated with the object. If that ETag value has changed, the API will the return the new value, otherwise it won't return the large resulset associated with the object.
+* `If-None-Match` - the client can search the API by giving the ETag value associated with the object. If that ETag value has changed, the API will the return the new value, otherwise it won't return the large resulset associated with the object.
 
-* If-Modified-Since - the client can search the API to retrieve records that are newer than an specific date/time.
+* `If-Modified-Since` - the client can search the API to retrieve records that are newer than an specific date/time.
 
 ### Data Types
 

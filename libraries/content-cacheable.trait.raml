@@ -9,6 +9,11 @@ headers:
       (it still has the same version), then HTTP status code '304 Not Modified' (with empty body)
       will be returned instead of the actual resource.
     example: 8b8405f6-b3e6-41a0-9f72-d7a283001a09
+  If-Modified-Since?:
+    type: string
+    description: |
+      Tells the server to send the resource representation only if the resource is modified since the date given in the header value.
+    example: Sun, 16 Apr 2017 18:29:15 AEST
 responses:
   200:
     description: |
@@ -20,10 +25,12 @@ responses:
       Cache-Control:
         type: string
         example: private, max-age=3600000
+      Since-Timestamp:
+        type: number
+        example: 1510183044
   304:
     description: |
-      The resource has not been modified, the body is empty and the version cached by the API
-      consumer client may be used.
+      The resource has not been modified, the body is empty and the version cached by the API consumer client may be used.
     headers:
       ETag:
         type: string
@@ -31,3 +38,6 @@ responses:
       Cache-Control:
         type: string
         example: private, max-age=3600000
+      Since-Timestamp:
+        type: number
+        example: 1510183044

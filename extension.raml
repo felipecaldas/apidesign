@@ -1,0 +1,8 @@
+#%RAML 1.0 Extension
+extends: api_spec.raml
+usage: This extension defines additional resources for version 2 of the API.
+version: v2
+/customers:
+  /{customer_id}:
+    /orders:
+      /{order_id}:

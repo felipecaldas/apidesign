@@ -14,21 +14,10 @@ types:
 uses:
   assets: libraries/assets.libs.raml
 
-
-/customer:
-  get:
-    description: List all customers
-    is: [ assets.contentCacheable, assets.paging ]
-    responses:
-      200:
-        body:
-          application/json:
-            type: Customer[]
-            example: !include examples/customers.json
-      404:
-        body:
-          properties:
-            error:
+/customers:
+  type:
+    assets.collection:
+      responseExampleVar: !include examples/customers.json
   /{customer_id}:
     description: A specific customer, identified by its id
     uriParameters:
@@ -48,18 +37,39 @@ uses:
       body:
         application/json:
           type: Customer
+      responses:
+        204:
+          body:
+            application/json:
+              example:
+                {
+                  "message" : "Customer updated"
+                }
+        500:
+          body:
+            application/json:
+              example:
+                {
+                  "message" : "Fatal error!"
+                }
     delete:
       description: Delete one particular customer
       is: [ assets.traceable ]
       responses:
         204:
-  post:
-    description: Creates one new customer
-    is: [ assets.traceable ]
-    body:
-      application/json:
-        type: Customer
-    responses:
-      201:
-        body:
-          properties:
+          body:
+            application/json:
+              example:
+                {
+                  "message" : "Customer deleted"
+                }
+        500:
+          body:
+            application/json:
+              example:
+                {
+                  "message" : "Fatal error!"
+                }
+    #methods below are for a future version of this API
+    /orders:
+      /{order_id}:

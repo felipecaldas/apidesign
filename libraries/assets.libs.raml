@@ -20,3 +20,62 @@ traits:
         type: integer
         required: false
         example: 0
+  searchable:
+    queryParameters:
+      lastname:
+        type: string
+        required: false
+        example: Caldas
+
+resourceTypes:
+  collection:
+    description: Collection of available <<resourcePathName>>
+    is: [ searchable ]
+    get:
+      description: Get a list of <<resourcePathName>>.
+      #https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                <<responseExampleVar>>
+        400:
+          body:
+            application/json:
+              example:
+                {
+                "message" : "Bad request"
+                }
+        404:
+          body:
+            application/json:
+              example:
+                {
+                "message" : "This resource could not be found"
+                }
+        500:
+          body:
+            application/json:
+              example:
+                {
+                "message" : "Fatal error. Our monkeys will be looking at this."
+                }
+    post:
+      description: Insert a new <<resourcePathName>>.
+      is: [ traceable ]
+      responses:
+        201:
+          body:
+            application/json:
+              example:
+                {
+                  "message" : "New customer created!"
+                }
+        500:
+          body:
+            application/json:
+              example:
+                {
+                "message" : "Fatal error. Our monkeys will be looking at this."
+                }

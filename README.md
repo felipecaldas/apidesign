@@ -9,6 +9,10 @@ With that in mind, resources that return data were assigned traits that support:
 * Caching
 * Paging
 
+By adding paging functionality to resources of the API, mobile consumers can then control how much data they want to be returned. That means that less data will be returned, and not the whole resulset, and therefore making the communication between mobile app and API faster.
+
+The caching functionality was added with the idea that if the data has not changed, there's no reason for the API to return it again.
+
 ## Extensibility & Modularization
 
 ### Resource Types
@@ -35,7 +39,7 @@ The Customer and Address objects have been defined in their own files so we can 
 
 ### Extension
 
-A very simple extension file `extension.raml` has been created to support a version 2 of this API, which will contain a new `/orders` resource which will be implemented in the future.
+A very simple extension file `extension.raml` has been created to support a version 2 of this API, which will contain a new `/orders` resource which will be implemented in the future. By using the extension, we can now baseline our API on version 1, and extend it on version 2, but using version 1 as the parent.
 
 ## Authors
 
